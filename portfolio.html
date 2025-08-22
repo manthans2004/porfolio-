@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manthan S - Portfolio</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <style>
         :root {
             --primary: #8d818f;
@@ -489,6 +490,7 @@
             font-size: 1.8rem;
             font-weight: 700;
             margin-bottom: 1rem;
+            color: white;
         }
         
         .footer-links h4 {
@@ -552,6 +554,33 @@
             text-align: center;
             padding-top: 1.5rem;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: 5px;
+            color: white;
+            z-index: 1000;
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: opacity 0.3s, transform 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .notification.success {
+            background-color: #4CAF50;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .notification.error {
+            background-color: #f44336;
+            opacity: 1;
+            transform: translateY(0);
         }
         
         /* Responsive Design */
@@ -955,12 +984,72 @@
     </footer>
 
     <script>
-        // Simple form submission handling
+        // Initialize EmailJS with your public key
+        (function() {
+            emailjs.init("Yks_25azPWF4RTbsS"); // You'll need to replace this with your actual EmailJS public key
+        })();
+
+        // Contact form submission
         document.getElementById('contactForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            alert('Thank you for your message! I will get back to you soon.');
-            this.reset();
+            
+            // Get form data
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+            
+            // Show loading state
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Sending...';
+            submitBtn.disabled = true;
+            
+            // Send email using EmailJS
+            emailjs.send("service_lrtm3i5","template_q5z8r8f"), {
+                from_name: name,
+                from_email: email,
+                message: message,
+                to_email: "2004manthans@gmail.com"
+            }
+            .then(function(response) {
+                // Show success message
+                showNotification('Message sent successfully!', 'success');
+                
+                // Reset form
+                document.getElementById('contactForm').reset();
+                
+                // Restore button
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }, function(error) {
+                // Show error message
+                showNotification('Failed to send message. Please try again.', 'error');
+                
+                // Restore button
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            });
         });
+        
+        // Show notification function
+        function showNotification(message, type) {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.textContent = message;
+            
+            // Add to document
+            document.body.appendChild(notification);
+            
+            // Remove after 3 seconds
+            setTimeout(function() {
+                notification.style.opacity = '0';
+                notification.style.transform = 'translateY(-20px)';
+                setTimeout(function() {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
         
         // Smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
