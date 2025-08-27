@@ -971,92 +971,93 @@
     </footer>
 
     <script>
-        // Initialize EmailJS with your public key
-        (function() {
-            emailjs.init("Yks_25azPWF4RTbsS"); // You'll need to replace this with your actual EmailJS public key
-        })();
+    // Initialize EmailJS with your public key
+    (function() {
+        emailjs.init("Yks_25azPWF4RTbsS");
+    })();
 
-        // Contact form submission
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
+    // Contact form submission
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Get form data
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const message = document.getElementById('message').value;
+        
+        // Show loading state
+        const submitBtn = this.querySelector('button[type="submit"]');
+        const originalText = submitBtn.textContent;
+        submitBtn.textContent = 'Sending...';
+        submitBtn.disabled = true;
+        
+        // Send email using EmailJS - UPDATED PARAMETERS
+        emailjs.send("service_lrtm3i5", "template_q5z8r8f", {
+            name: name,        // Changed to match your template's ((name))
+            email: email,      // Added email parameter
+            message: message,  // This should match your template's ((message))
+            to_email: "2004manthans@gmail.com"
+        })
+        .then(function(response) {
+            // Show success message
+            showNotification('Message sent successfully!', 'success');
+            
+            // Reset form
+            document.getElementById('contactForm').reset();
+            
+            // Restore button
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+        }, function(error) {
+            // Show error message
+            showNotification('Failed to send message. Please try again.', 'error');
+            
+            // Restore button
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+        });
+    });
+    
+    // Show notification function
+    function showNotification(message, type) {
+        // Create notification element
+        const notification = document.createElement('div');
+        notification.className = `notification ${type}`;
+        notification.textContent = message;
+        
+        // Add to document
+        document.body.appendChild(notification);
+        
+        // Remove after 3 seconds
+        setTimeout(function() {
+            notification.style.opacity = '0';
+            notification.style.transform = 'translateY(-20px)';
+            setTimeout(function() {
+                document.body.removeChild(notification);
+            }, 300);
+        }, 3000);
+    }
+    
+    // Smooth scrolling for navigation links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
             e.preventDefault();
             
-            // Get form data
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const message = document.getElementById('message').value;
+            const targetId = this.getAttribute('href');
+            if(targetId === '#') return;
             
-            // Show loading state
-            const submitBtn = this.querySelector('button[type="submit"]');
-            const originalText = submitBtn.textContent;
-            submitBtn.textContent = 'Sending...';
-            submitBtn.disabled = true;
-            
-            // Send email using EmailJS
-            emailjs.send("service_lrtm3i5","template_q5z8r8f"), {
-                from_name: name,
-                from_email: email,
-                message: message,
-                to_email: "2004manthans@gmail.com"
+            const targetElement = document.querySelector(targetId);
+            if(targetElement) {
+                window.scrollTo({
+                    top: targetElement.offsetTop - 80,
+                    behavior: 'smooth'
+                });
             }
-            .then(function(response) {
-                // Show success message
-                showNotification('Message sent successfully!', 'success');
-                
-                // Reset form
-                document.getElementById('contactForm').reset();
-                
-                // Restore button
-                submitBtn.textContent = originalText;
-                submitBtn.disabled = false;
-            }, function(error) {
-                // Show error message
-                showNotification('Failed to send message. Please try again.', 'error');
-                
-                // Restore button
-                submitBtn.textContent = originalText;
-                submitBtn.disabled = false;
-            });
         });
-        
-        // Show notification function
-        function showNotification(message, type) {
-            // Create notification element
-            const notification = document.createElement('div');
-            notification.className = `notification ${type}`;
-            notification.textContent = message;
-            
-            // Add to document
-            document.body.appendChild(notification);
-            
-            // Remove after 3 seconds
-            setTimeout(function() {
-                notification.style.opacity = '0';
-                notification.style.transform = 'translateY(-20px)';
-                setTimeout(function() {
-                    document.body.removeChild(notification);
-                }, 300);
-            }, 3000);
-        }
-        
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                
-                const targetId = this.getAttribute('href');
-                if(targetId === '#') return;
-                
-                const targetElement = document.querySelector(targetId);
-                if(targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 80,
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
-    </script>
+    });
+</script>
 </body>
 
 </html>
+
 
