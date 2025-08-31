@@ -197,12 +197,36 @@
         
         .about-image {
             position: relative;
+            text-align: center;
         }
         
-        .about-image img {
-            width: 100%;
-            border-radius: 10px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        .profile-img {
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid var(--primary);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+        }
+        
+        .profile-img:hover {
+            transform: scale(1.03);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+        
+        .img-placeholder {
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 5rem;
+            margin: 0 auto;
+            border: 5px solid var(--primary);
         }
         
         /* Skills Section */
@@ -218,6 +242,8 @@
             border-radius: 10px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
             transition: transform 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
         }
         
         .skill-category:hover {
@@ -277,11 +303,14 @@
             border-radius: 10px;
             overflow: hidden;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s ease;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
         }
         
         .project-card:hover {
             transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
         }
         
         .project-img {
@@ -292,6 +321,18 @@
             justify-content: center;
             color: white;
             font-size: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .project-img::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.1) 100%);
         }
         
         .project-content {
@@ -322,6 +363,13 @@
             font-size: 0.8rem;
             margin-right: 0.5rem;
             margin-bottom: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .tech-tag:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-2px);
         }
         
         .project-links a {
@@ -331,6 +379,12 @@
             margin-right: 1rem;
             display: inline-flex;
             align-items: center;
+            transition: all 0.3s ease;
+        }
+        
+        .project-links a:hover {
+            color: var(--secondary);
+            transform: translateY(-2px);
         }
         
         .project-links a i {
@@ -360,6 +414,8 @@
             position: relative;
             width: 50%;
             box-sizing: border-box;
+            opacity: 0;
+            transform: translateY(20px);
         }
         
         .timeline-item:nth-child(odd) {
@@ -376,6 +432,11 @@
             position: relative;
             border-radius: 10px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+        
+        .timeline-content:hover {
+            transform: translateY(-3px);
         }
         
         .timeline-content h3 {
@@ -388,6 +449,11 @@
             font-weight: 500;
             margin-bottom: 0.5rem;
             display: block;
+        }
+        
+        .timeline-content p {
+            color: var(--text);
+            margin-bottom: 0.5rem;
         }
         
         .timeline-item::after {
@@ -423,6 +489,11 @@
             display: flex;
             align-items: center;
             margin-bottom: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .contact-item:hover {
+            transform: translateX(5px);
         }
         
         .contact-icon {
@@ -440,6 +511,11 @@
         
         .contact-text h4 {
             margin-bottom: 0.3rem;
+            color: var(--dark);
+        }
+        
+        .contact-text p {
+            color: var(--text);
         }
         
         .contact-form {
@@ -457,6 +533,7 @@
             display: block;
             margin-bottom: 0.5rem;
             font-weight: 500;
+            color: var(--dark);
         }
         
         .form-control {
@@ -465,6 +542,13 @@
             border: 1px solid #ddd;
             border-radius: 5px;
             font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(141, 129, 143, 0.1);
         }
         
         textarea.form-control {
@@ -497,6 +581,7 @@
             margin-bottom: 1rem;
             position: relative;
             display: inline-block;
+            color: white;
         }
         
         .footer-links h4::after {
@@ -583,6 +668,44 @@
             transform: translateY(0);
         }
         
+        /* Loading animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Dark mode toggle */
+        .dark-mode-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 100;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .dark-mode-toggle:hover {
+            transform: scale(1.1);
+        }
+        
         /* Responsive Design */
         @media (max-width: 992px) {
             .about-content,
@@ -631,6 +754,72 @@
             .projects-grid {
                 grid-template-columns: 1fr;
             }
+            
+            .profile-img, .img-placeholder {
+                width: 220px;
+                height: 220px;
+            }
+        }
+        
+        /* Dark mode styles - FIXED VERSION */
+        body.dark-mode {
+            --light: #2a2438;
+            --dark: #f5f3f7;
+            --text: #e0d6eb;
+            background-color: #352f44;
+            color: var(--text);
+        }
+        
+        body.dark-mode .skill-category,
+        body.dark-mode .project-card,
+        body.dark-mode .timeline-content,
+        body.dark-mode .contact-form {
+            background: #3f3a50;
+            color: var(--text);
+        }
+        
+        body.dark-mode .tech-tag {
+            background: #504a66;
+            color: var(--accent);
+        }
+        
+        body.dark-mode .form-control {
+            background: #504a66;
+            border-color: #605a76;
+            color: var(--text);
+        }
+        
+        body.dark-mode .section-title h2 {
+            color: var(--dark);
+        }
+        
+        body.dark-mode .project-content h3 {
+            color: var(--dark);
+        }
+        
+        body.dark-mode .about-text h3,
+        body.dark-mode .contact-text h4,
+        body.dark-mode .form-group label {
+            color: var(--dark);
+        }
+        
+        body.dark-mode .about-text p,
+        body.dark-mode .contact-text p,
+        body.dark-mode .project-content p,
+        body.dark-mode .timeline-content p {
+            color: var(--text);
+        }
+        
+        body.dark-mode #skills {
+            background-color: #2a2438 !important;
+        }
+        
+        body.dark-mode #education {
+            background-color: #2a2438 !important;
+        }
+        
+        body.dark-mode .skill-bar {
+            background: #504a66;
         }
     </style>
 </head>
@@ -676,12 +865,16 @@
                 <div class="about-text">
                     <h3>Passionate Developer & Problem Solver</h3>
                     <p>Computer Science undergraduate at The Oxford College of Engineering (VTU) with a <strong>CGPA of 9.4</strong>, passionate about software development, cloud technologies, and DevOps.</p>
-                    <p>Certified in Blockchain, Docker, Kubernetes, Azure DevOps and Web Development. Recognized as the Best Outgoing Student & <strong>Gold Medalist (2019-20)</strong> and currently serving as Secretary of the Computer Society of India (CSI) – TOCE Chapter.</p>
+                    <p>Certified in Blockchain, DevOps and Web Development. Recognized as the Best Outgoing Student & <strong>Gold Medalist (2019-20)</strong> and served as Secretary of the Computer Society of India (CSI) – TOCE Chapter.</p>
                     <p>Committed to continuous learning, and delivering impactful tech solutions.</p>
                     <a href="#contact" class="btn">Let's Connect</a>
                 </div>
                 <div class="about-image">
-                    <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 400 400'><rect width='400' height='400' fill='%23f5f3f7'/><circle cx='200' cy='150' r='80' fill='%238d818f' opacity='0.2'/><path d='M200 270 L150 350 L250 350 Z' fill='%238d818f' opacity='0.2'/></svg>" alt="Manthan S">
+                    <div id="profile-image-container">
+                        <div class="img-placeholder">
+                            <i class="fas fa-user"></i>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -776,6 +969,29 @@
                 <h2>Featured Projects</h2>
             </div>
             <div class="projects-grid">
+                <!-- Project Citadel -->
+                <div class="project-card">
+                        <div class="project-img" style="background: url('C:/Users/manth/OneDrive/Documents/projects/portfolio/project-citadel-social-preview.png') center/cover no-repeat;">
+
+                        
+                    </div>
+                    <div class="project-content">
+                        <h3>Project Citadel - Enhanced Hill Cipher</h3>
+                        <p>Developed a modernized Hill Cipher implementation incorporating non-linear S-Box diffusion and Cipher Block Chaining (CBC) mode for secure file encryption/decryption.</p>
+                        <div class="project-tech">
+                            <span class="tech-tag">Python</span>
+                            <span class="tech-tag">Flask</span>
+                            <span class="tech-tag">Cryptography</span>
+                            <span class="tech-tag">NumPy</span>
+                            <span class="tech-tag">Pillow</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://github.com/manthans2004/Project-Citadel" target="_blank"><i class="fab fa-github"></i> Code</a>
+                            <a href="https://project-citadel.onrender.com" target="_blank"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+                        </div>
+                    </div>
+                </div>
+                
                 <div class="project-card">
                     <div class="project-img">
                         <i class="fas fa-chart-line"></i>
@@ -821,7 +1037,7 @@
                     </div>
                     <div class="project-content">
                         <h3>Blockchain-based Transaction Ledger</h3>
-                        <p>Developed a simple blockchain application in Python to securely record and verify transactions using SHA-256 hashing and proof-of-work.</p>
+                        <p>Developed a blockchain application in Python to securely record and verify transactions using SHA-256 hashing and proof-of-work.</p>
                         <div class="project-tech">
                             <span class="tech-tag">Python</span>
                             <span class="tech-tag">Blockchain</span>
@@ -868,20 +1084,7 @@
                         <p><strong>Percentage: 96.8%</strong></p>
                     </div>
                 </div>
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <h3>Blockchain A-Z Certification</h3>
-                        <span class="date">2025</span>
-                        <p>Udemy</p>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <h3>DevOps Certification</h3>
-                        <span class="date">2025</span>
-                        <p>Docker, Kubernetes, Azure DevOps - Udemy</p>
-                    </div>
-                </div>
+               
             </div>
         </div>
     </section>
@@ -892,6 +1095,7 @@
             <div class="section-title">
                 <h2>Get In Touch</h2>
             </div>
+            
             <div class="contact-container">
                 <div class="contact-info">
                     <div class="contact-item">
@@ -939,7 +1143,11 @@
                             <input type="email" id="email" class="form-control" required>
                         </div>
                         <div class="form-group">
-                            <label for="message">Your Message</label>
+                            <label for="subject">Subject</label>
+                            <input type="text" id="subject" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
                             <textarea id="message" class="form-control" required></textarea>
                         </div>
                         <button type="submit" class="btn">Send Message</button>
@@ -955,7 +1163,13 @@
             <div class="footer-content">
                 <div class="footer-about">
                     <div class="footer-logo">Manthan S</div>
-                    <p>Aspiring Software Development Engineer passionate about Blockchain, DevOps, and Web Development.</p>
+                    <p>Passionate about creating innovative solutions and pushing the boundaries of technology.</p>
+                    <div class="social-links">
+                        <a href="https://github.com/manthans2004" target="_blank"><i class="fab fa-github"></i></a>
+                        <a href="https://www.linkedin.com/in/2004manthan-s" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
                 </div>
                 <div class="footer-links">
                     <h4>Quick Links</h4>
@@ -968,12 +1182,12 @@
                     </ul>
                 </div>
                 <div class="footer-links">
-                    <h4>Connect With Me</h4>
+                    <h4>Projects</h4>
                     <ul>
-                        <li><a href="https://github.com/manthans2004" target="_blank">GitHub</a></li>
-                        <li><a href="https://www.linkedin.com/in/2004manthan-s" target="_blank">LinkedIn</a></li>
-                        <li><a href="#">Twitter</a></li>
-                        <li><a href="#">Instagram</a></li>
+                        <li><a href="https://github.com/manthans2004/Project-Citadel" target="_blank">Project Citadel</a></li>
+                        <li><a href="#">FinTrack</a></li>
+                        <li><a href="#">LegalEase</a></li>
+                        <li><a href="#">Blockchain Ledger</a></li>
                     </ul>
                 </div>
             </div>
@@ -983,89 +1197,125 @@
         </div>
     </footer>
 
-    <script>
-        // Initialize EmailJS with your public key
-        (function() {
-            emailjs.init("Yks_25azPWF4RTbsS"); // You'll need to replace this with your actual EmailJS public key
-        })();
+    <!-- Dark Mode Toggle -->
+    <div class="dark-mode-toggle" id="darkModeToggle">
+        <i class="fas fa-moon"></i>
+    </div>
 
-        // Contact form submission
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
-            e.preventDefault();
+    <!-- Notification -->
+    <div class="notification" id="notification"></div>
+
+    <script>
+        // Load GitHub profile image
+        document.addEventListener('DOMContentLoaded', function() {
+            // Fetch GitHub profile image
+            fetch('https://api.github.com/users/manthans2004')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.avatar_url) {
+                        const profileImg = document.createElement('img');
+                        profileImg.src = data.avatar_url;
+                        profileImg.alt = 'Manthan S';
+                        profileImg.className = 'profile-img';
+                        document.getElementById('profile-image-container').innerHTML = '';
+                        document.getElementById('profile-image-container').appendChild(profileImg);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching GitHub profile:', error);
+                });
+
+            // Animate elements on scroll
+            const animateOnScroll = function() {
+                const elements = document.querySelectorAll('.skill-category, .project-card, .timeline-item');
+                
+                elements.forEach(element => {
+                    const elementPosition = element.getBoundingClientRect().top;
+                    const screenPosition = window.innerHeight / 1.3;
+                    
+                    if (elementPosition < screenPosition) {
+                        element.style.opacity = '1';
+                        element.style.transform = 'translateY(0)';
+                        element.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    }
+                });
+            };
             
-            // Get form data
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const message = document.getElementById('message').value;
+            window.addEventListener('scroll', animateOnScroll);
+            // Initial call to check elements in view
+            animateOnScroll();
             
-            // Show loading state
-            const submitBtn = this.querySelector('button[type="submit"]');
-            const originalText = submitBtn.textContent;
-            submitBtn.textContent = 'Sending...';
-            submitBtn.disabled = true;
+            // Dark mode toggle
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            const body = document.body;
             
-            // Send email using EmailJS
-            emailjs.send("service_lrtm3i5","template_q5z8r8f"), {
-                from_name: name,
-                from_email: email,
-                message: message,
-                to_email: "2004manthans@gmail.com"
+            // Check for saved dark mode preference
+            if (localStorage.getItem('darkMode') === 'enabled') {
+                body.classList.add('dark-mode');
+                darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
             }
-            .then(function(response) {
-                // Show success message
-                showNotification('Message sent successfully!', 'success');
+            
+            darkModeToggle.addEventListener('click', () => {
+                body.classList.toggle('dark-mode');
                 
-                // Reset form
-                document.getElementById('contactForm').reset();
-                
-                // Restore button
-                submitBtn.textContent = originalText;
-                submitBtn.disabled = false;
-            }, function(error) {
-                // Show error message
-                showNotification('Failed to send message. Please try again.', 'error');
-                
-                // Restore button
-                submitBtn.textContent = originalText;
-                submitBtn.disabled = false;
+                if (body.classList.contains('dark-mode')) {
+                    localStorage.setItem('darkMode', 'enabled');
+                    darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+                } else {
+                    localStorage.setItem('darkMode', null);
+                    darkModeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+                }
             });
-        });
-        
-        // Show notification function
-        function showNotification(message, type) {
-            // Create notification element
-            const notification = document.createElement('div');
-            notification.className = `notification ${type}`;
-            notification.textContent = message;
             
-            // Add to document
-            document.body.appendChild(notification);
+            // Form submission
+            const contactForm = document.getElementById('contactForm');
+            const notification = document.getElementById('notification');
             
-            // Remove after 3 seconds
-            setTimeout(function() {
-                notification.style.opacity = '0';
-                notification.style.transform = 'translateY(-20px)';
-                setTimeout(function() {
-                    document.body.removeChild(notification);
-                }, 300);
-            }, 3000);
-        }
-        
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
+            contactForm.addEventListener('submit', function(e) {
                 e.preventDefault();
                 
-                const targetId = this.getAttribute('href');
-                if(targetId === '#') return;
+                // Show loading state
+                const submitBtn = contactForm.querySelector('button[type="submit"]');
+                const originalText = submitBtn.innerHTML;
+                submitBtn.innerHTML = '<div class="loading"></div> Sending...';
+                submitBtn.disabled = true;
                 
-                const targetElement = document.querySelector(targetId);
-                if(targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 80,
-                        behavior: 'smooth'
-                    });
-                }
+                // Simulate form submission (replace with actual form submission code)
+                setTimeout(() => {
+                    // Show success notification
+                    notification.textContent = 'Message sent successfully!';
+                    notification.classList.add('success');
+                    
+                    // Reset form
+                    contactForm.reset();
+                    
+                    // Reset button
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                    
+                    // Hide notification after 3 seconds
+                    setTimeout(() => {
+                        notification.classList.remove('success');
+                    }, 3000);
+                }, 1500);
+            });
+            
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
             });
         });
     </script>
