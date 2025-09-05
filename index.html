@@ -641,6 +641,14 @@
             border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
         
+        /* Visitor Counter */
+        .visitor-counter {
+            text-align: center;
+            margin-top: 10px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+        
         /* Notification */
         .notification {
             position: fixed;
@@ -1192,7 +1200,10 @@
                 </div>
             </div>
             <div class="copyright">
-                <p>&copy; 2023 Manthan S. All Rights Reserved.</p>
+                <p>&copy; 2025 Manthan S. All Rights Reserved.</p>
+                <div id="visitor-counter" class="visitor-counter">
+                    <i class="fas fa-eye"></i> <span id="visitor-count">Loading visitor count...</span>
+                </div>
             </div>
         </div>
     </footer>
@@ -1206,8 +1217,27 @@
     <div class="notification" id="notification"></div>
 
     <script>
+        // Visitor counter functionality
+        function trackVisitor() {
+            // Use a free counter API - replace 'manthan-portfolio' with your name/domain
+            fetch('https://api.countapi.xyz/hit/manthan-portfolio/visits')
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Visitor count:', data.value);
+                    // Update the visitor count display
+                    document.getElementById('visitor-count').textContent = `Total Visitors: ${data.value}`;
+                })
+                .catch(error => {
+                    console.error('Error tracking visitor:', error);
+                    document.getElementById('visitor-count').textContent = 'Visitor count unavailable';
+                });
+        }
+
         // Load GitHub profile image
         document.addEventListener('DOMContentLoaded', function() {
+            // Track visitor
+            trackVisitor();
+            
             // Fetch GitHub profile image
             fetch('https://api.github.com/users/manthans2004')
                 .then(response => response.json())
