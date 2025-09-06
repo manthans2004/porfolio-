@@ -6,6 +6,18 @@
     <title>Manthan S - Portfolio</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    
+    <!-- Google Analytics -->
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-SM45VK6D9T"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-SM45VK6D9T');
+</script>
+    
     <style>
         :root {
             --primary: #8d818f;
@@ -647,6 +659,20 @@
             margin-top: 10px;
             color: rgba(255, 255, 255, 0.7);
             font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+        
+        .counter-loading {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border: 2px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
         }
         
         /* Notification */
@@ -1202,7 +1228,7 @@
             <div class="copyright">
                 <p>&copy; 2025 Manthan S. All Rights Reserved.</p>
                 <div id="visitor-counter" class="visitor-counter">
-                    <i class="fas fa-eye"></i> <span id="visitor-count">Loading visitor count...</span>
+                    <i class="fas fa-eye"></i> <span id="visitor-count">Tracking with Google Analytics</span>
                 </div>
             </div>
         </div>
@@ -1217,28 +1243,22 @@
     <div class="notification" id="notification"></div>
 
     <script>
-        // Visitor counter functionality
-        function trackVisitor() {
-            // Use a free counter API - replace 'manthan-portfolio' with your name/domain
-            fetch('https://api.countapi.xyz/hit/manthan-portfolio/visits')
-                .then(response => response.json())
-                .then(data => {
-                    console.log('Visitor count:', data.value);
-                    // Update the visitor count display
-                    document.getElementById('visitor-count').textContent = `Total Visitors: ${data.value}`;
-                })
-                .catch(error => {
-                    console.error('Error tracking visitor:', error);
-                    document.getElementById('visitor-count').textContent = 'Visitor count unavailable';
-                });
-        }
-
-        // Load GitHub profile image
+        // Track outbound links with Google Analytics
         document.addEventListener('DOMContentLoaded', function() {
-            // Track visitor
-            trackVisitor();
+            // Track outbound links
+            document.querySelectorAll('a[href^="http"]').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    if (this.href.indexOf(window.location.hostname) === -1) {
+                        gtag('event', 'click', {
+                            'event_category': 'outbound',
+                            'event_label': this.href,
+                            'transport_type': 'beacon'
+                        });
+                    }
+                });
+            });
             
-            // Fetch GitHub profile image
+            // Track GitHub profile image load
             fetch('https://api.github.com/users/manthans2004')
                 .then(response => response.json())
                 .then(data => {
@@ -1249,10 +1269,21 @@
                         profileImg.className = 'profile-img';
                         document.getElementById('profile-image-container').innerHTML = '';
                         document.getElementById('profile-image-container').appendChild(profileImg);
+                        
+                        // Track successful image load
+                        gtag('event', 'github_image_load', {
+                            'event_category': 'resources',
+                            'event_label': 'GitHub Profile Image'
+                        });
                     }
                 })
                 .catch(error => {
                     console.error('Error fetching GitHub profile:', error);
+                    // Track failed image load
+                    gtag('event', 'github_image_error', {
+                        'event_category': 'errors',
+                        'event_label': 'GitHub Profile Image Load Failed'
+                    });
                 });
 
             // Animate elements on scroll
@@ -1275,6 +1306,18 @@
             // Initial call to check elements in view
             animateOnScroll();
             
+            // Track scroll depth
+            let scrollDepthTracked = false;
+            window.addEventListener('scroll', function() {
+                if (!scrollDepthTracked && (window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100) {
+                    scrollDepthTracked = true;
+                    gtag('event', 'scroll_depth', {
+                        'event_category': 'engagement',
+                        'event_label': '100% Scroll Depth'
+                    });
+                }
+            });
+            
             // Dark mode toggle
             const darkModeToggle = document.getElementById('darkModeToggle');
             const body = document.body;
@@ -1283,6 +1326,12 @@
             if (localStorage.getItem('darkMode') === 'enabled') {
                 body.classList.add('dark-mode');
                 darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+                
+                // Track dark mode preference
+                gtag('event', 'dark_mode', {
+                    'event_category': 'preference',
+                    'event_label': 'Dark Mode Enabled'
+                });
             }
             
             darkModeToggle.addEventListener('click', () => {
@@ -1291,9 +1340,21 @@
                 if (body.classList.contains('dark-mode')) {
                     localStorage.setItem('darkMode', 'enabled');
                     darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+                    
+                    // Track dark mode enabled
+                    gtag('event', 'dark_mode', {
+                        'event_category': 'preference',
+                        'event_label': 'Dark Mode Enabled'
+                    });
                 } else {
                     localStorage.setItem('darkMode', null);
                     darkModeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+                    
+                    // Track dark mode disabled
+                    gtag('event', 'dark_mode', {
+                        'event_category': 'preference',
+                        'event_label': 'Dark Mode Disabled'
+                    });
                 }
             });
             
@@ -1310,11 +1371,23 @@
                 submitBtn.innerHTML = '<div class="loading"></div> Sending...';
                 submitBtn.disabled = true;
                 
+                // Track form submission attempt
+                gtag('event', 'form_submission', {
+                    'event_category': 'engagement',
+                    'event_label': 'Contact Form Submission Attempt'
+                });
+                
                 // Simulate form submission (replace with actual form submission code)
                 setTimeout(() => {
                     // Show success notification
                     notification.textContent = 'Message sent successfully!';
                     notification.classList.add('success');
+                    
+                    // Track successful form submission
+                    gtag('event', 'form_success', {
+                        'event_category': 'conversion',
+                        'event_label': 'Contact Form Success'
+                    });
                     
                     // Reset form
                     contactForm.reset();
@@ -1338,6 +1411,12 @@
                     const targetId = this.getAttribute('href');
                     if (targetId === '#') return;
                     
+                    // Track navigation clicks
+                    gtag('event', 'navigation', {
+                        'event_category': 'engagement',
+                        'event_label': targetId
+                    });
+                    
                     const targetElement = document.querySelector(targetId);
                     if (targetElement) {
                         window.scrollTo({
@@ -1345,6 +1424,17 @@
                             behavior: 'smooth'
                         });
                     }
+                });
+            });
+            
+            // Track time on page
+            let startTime = Date.now();
+            window.addEventListener('beforeunload', function() {
+                let timeSpent = Date.now() - startTime;
+                gtag('event', 'time_spent', {
+                    'event_category': 'engagement',
+                    'event_label': 'Time on Page',
+                    'value': Math.round(timeSpent / 1000)
                 });
             });
         });
